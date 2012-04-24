@@ -6,8 +6,10 @@
 
     <uses-sdk android:minSdkVersion="10" />
     
+    <!-- TODO: Do I really need READ_TRACK_DATA? It fixes a crash, but I wasn't expecting to need it. -->
     <uses-permission android:name="com.google.android.apps.mytracks.WRITE_TRACK_DATA" />
-
+    <uses-permission android:name="com.google.android.apps.mytracks.READ_TRACK_DATA" />
+    
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
