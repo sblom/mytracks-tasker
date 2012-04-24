@@ -13,8 +13,24 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 
-public class MyTracksPluginActivity extends Activity implements ServiceConnection {
+public class MyTracksPluginActivity extends Activity {
 	private ITrackRecordingService mytracksService;
+	private Intent myTracksServiceIntent;
+	
+	private ServiceConnection connection = new ServiceConnection() {		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			Log.i("MyTracksPlugin", "Service disconnected.");
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			Log.i("MyTracksPlugin", "Service connected.");
+			synchronized (this) {
+				mytracksService = ITrackRecordingService.Stub.asInterface(service);
+			}		
+		}
+	};
 	
     /** Called when the activity is first created. */
     @Override
@@ -22,11 +38,17 @@ public class MyTracksPluginActivity extends Activity implements ServiceConnectio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-    	Intent intent = new Intent();
-    	intent.setComponent(new ComponentName(
+    	myTracksServiceIntent = new Intent();
+    	myTracksServiceIntent.setComponent(new ComponentName(
     			getString(R.string.mytracks_service_package),
                 getString(R.string.mytracks_service_class)));
-        if (!bindService(intent, this, Context.BIND_AUTO_CREATE)) {
+    }
+    
+    @Override
+    protected void onStart() {
+    	super.onStart();
+    	startService(myTracksServiceIntent);
+        if (!bindService(myTracksServiceIntent, connection, 0)) {
         	Log.e("MyTracksPlugin", "Couldn't bind to service.");
         }
     }
@@ -50,18 +72,4 @@ public class MyTracksPluginActivity extends Activity implements ServiceConnectio
     		Log.e("MyTracksPlugin", "RemoteException: " + e.getMessage());
     	}
     }
-
-	@Override
-	public void onServiceConnected(ComponentName name, IBinder service) {
-		Log.i("MyTracksPlugin", "Service connected.");
-		synchronized (this) {
-			mytracksService = ITrackRecordingService.Stub.asInterface(service);
-		}		
-	}
-
-	@Override
-	public void onServiceDisconnected(ComponentName name) {
-		// TODO Auto-generated method stub
-		Log.i("MyTracksPlugin", "Service disconnected.");
-	}
 }
