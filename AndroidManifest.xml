@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
 <!-- -->
+		
+		<!-- This service is only ever used by FireReceiver, but is, unfortunately
+		     required because BroadcastReceivers cannot do any async activities -->
+		<service android:name=".BroadcastExecutive" android:exported="false" />
+		
         <!-- Listen for the "edit" action -->
         <activity
             android:name=".EditActivity"
@@ -33,6 +38,7 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
+
         <!-- Listen for the "fire" action-->
         <receiver android:name=".FireReceiver" >
             <intent-filter>
