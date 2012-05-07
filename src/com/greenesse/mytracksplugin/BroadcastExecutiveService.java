@@ -12,9 +12,14 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 
-public class BroadcastExecutive extends IntentService {
-	public BroadcastExecutive(String name) {
+public class BroadcastExecutiveService extends IntentService {
+	public BroadcastExecutiveService(String name) {
 		super(name);
+	}
+	
+	public BroadcastExecutiveService() {
+		// TODO: WTF should this be?
+		super("BroadcaseExecutiveService");
 	}
 
 	private ITrackRecordingService mytracksService;
@@ -50,10 +55,20 @@ public class BroadcastExecutive extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		
+		if ("start".equals(intent.getAction())) {
+			start();
+		}
+		else if ("stop".equals(intent.getAction())) {
+			stop();
+		}
 	}
 	
-    public void start(View view) {
+	@Override
+	public void onDestroy() {
+		unbindService(connection);
+	}
+	
+    public void start() {
     	try {
 	    	if (!mytracksService.isRecording()) {
 	    		mytracksService.startNewTrack();
@@ -63,7 +78,7 @@ public class BroadcastExecutive extends IntentService {
     	}
     }
     
-    public void stop(View view) {
+    public void stop() {
     	try {
 	    	if (mytracksService.isRecording()) {
 	    		mytracksService.endCurrentTrack();

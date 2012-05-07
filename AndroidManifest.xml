@@ -27,7 +27,7 @@
 		
 		<!-- This service is only ever used by FireReceiver, but is, unfortunately
 		     required because BroadcastReceivers cannot do any async activities -->
-		<service android:name=".BroadcastExecutive" android:exported="false" />
+		<service android:name=".BroadcastExecutiveService" android:exported="false" />
 		
         <!-- Listen for the "edit" action -->
         <activity
