@@ -33,7 +33,6 @@
         <activity
             android:name=".EditActivity"
             android:label="@string/setting_name">
-            <!-- android:icon="@drawable/icon_plugin" -->
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
