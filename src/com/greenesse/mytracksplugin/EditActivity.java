@@ -3,6 +3,7 @@ package com.greenesse.mytracksplugin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -23,15 +24,26 @@ public class EditActivity extends Activity {
     }
     
     public void save(View view) {
-    	RadioButton startRecording = (RadioButton)findViewById(R.id.startRecording);
-    	String action = startRecording.isChecked() ? "start" : "stop";
+		String action = "";
+		switch (view.getId())
+		{
+		case R.id.startButton:
+			action = "start";
+			break;
+		case R.id.stopButton:
+			action = "stop";
+			break;
+		default:
+			Log.wtf("button handler", "Invalid button handled!");
+			break;
+		}
     	
-    	Bundle extra = new Bundle();
-    	extra.putString("action", action);
+		Bundle extra = new Bundle();
+		extra.putString("action", action);
 
-    	Intent resultIntent = new Intent();
-    	resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, startRecording.isChecked() ? "Start recording" : "Stop recording");
-    	resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, extra);
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, "start".equals(action) ? "Start recording" : "Stop recording");
+		resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, extra);
     	setResult(RESULT_OK, resultIntent);
 
     	finish();

@@ -4,39 +4,28 @@
     android:layout_height="wrap_content"
     android:padding="10px" >
 
-    <RadioGroup
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/radioButtons" >
-		
-	    <RadioButton
-	        android:id="@+id/startRecording"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Start recording" />
-	
-	    <RadioButton
-	        android:id="@+id/stopRecording"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/startRecording"
-	        android:text="Stop recording" />
-    </RadioGroup>
-
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioButtons"
         android:onClick="save"
-        android:text="Save" />
+        android:text="Start recording" />
+
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/startButton"
+        android:layout_alignTop="@id/startButton"
+        android:onClick="save"
+        android:text="Stop recording" />
 
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/saveButton"
-        android:layout_alignTop="@id/saveButton"
+        android:layout_toRightOf="@id/stopButton"
+        android:layout_alignTop="@id/stopButton"
         android:onClick="cancel"
         android:text="Cancel" />
 
