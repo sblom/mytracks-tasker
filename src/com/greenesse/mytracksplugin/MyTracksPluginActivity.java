@@ -21,6 +21,7 @@ public class MyTracksPluginActivity extends Activity {
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			Log.i("MyTracksPlugin", "Service disconnected.");
+			startAndBindMyTracksService();
 		}
 		
 		@Override
@@ -47,10 +48,20 @@ public class MyTracksPluginActivity extends Activity {
     @Override
     protected void onStart() {
     	super.onStart();
-    	startService(myTracksServiceIntent);
+		startAndBindMyTracksService();
+    }
+
+	private void startAndBindMyTracksService() {
+		startService(myTracksServiceIntent);
         if (!bindService(myTracksServiceIntent, connection, 0)) {
         	Log.e("MyTracksPlugin", "Couldn't bind to service.");
         }
+	}
+
+    @Override
+    protected void onStop() {
+		unbindService(connection);
+		super.onStop();
     }
     
     public void start(View view) {

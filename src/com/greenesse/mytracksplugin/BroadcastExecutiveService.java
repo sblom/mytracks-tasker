@@ -24,7 +24,9 @@ public class BroadcastExecutiveService extends IntentService {
 
 	private ITrackRecordingService mytracksService;
 	private Intent myTracksServiceIntent;
-	
+
+	private Intent pending;
+
 	private ServiceConnection connection = new ServiceConnection() {		
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
@@ -36,12 +38,18 @@ public class BroadcastExecutiveService extends IntentService {
 			Log.i("MyTracksPlugin", "Service connected.");
 			synchronized (this) {
 				mytracksService = ITrackRecordingService.Stub.asInterface(service);
+				if (pending != null) {
+					onHandleIntent(pending);
+					pending = null;
+				}
 			}		
 		}
 	};
 	
 	@Override
 	public void onCreate() {
+		super.onCreate();
+
     	myTracksServiceIntent = new Intent();
     	myTracksServiceIntent.setComponent(new ComponentName(
     			getString(R.string.mytracks_service_package),
@@ -55,6 +63,12 @@ public class BroadcastExecutiveService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		synchronized (this) {
+			if (mytracksService == null) {
+				pending = intent;
+				return;
+			}
+		}
 		if ("start".equals(intent.getAction())) {
 			start();
 		}
@@ -66,6 +80,7 @@ public class BroadcastExecutiveService extends IntentService {
 	@Override
 	public void onDestroy() {
 		unbindService(connection);
+		super.onDestroy();
 	}
 	
     public void start() {
