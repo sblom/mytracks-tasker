@@ -2,5 +2,6 @@
 <resources>
     <string name="app_name">MyTracksPlugin</string>
     <string name="setting_name">MyTracks Recording</string>
+    <string name="helptext">Choose whether you want the plugin to start or stop a MyTracks recording when invoked.</string>
 
 </resources>

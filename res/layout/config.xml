@@ -4,10 +4,17 @@
     android:layout_height="wrap_content"
     android:padding="10px" >
 
+    <TextView
+        android:id="@+id/textHelptext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/helptext" />
+
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/textHelptext"
         android:onClick="save"
         android:text="Start recording" />
 
