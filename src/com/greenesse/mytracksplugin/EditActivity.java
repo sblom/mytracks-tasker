@@ -42,7 +42,7 @@ public class EditActivity extends Activity {
 		extra.putString("action", action);
 
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, "start".equals(action) ? "Start recording" : "Stop recording");
+		resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, "start".equals(action) ? getString(R.string.start_recording_blurb) : getString(R.string.stop_recording_blurb));
 		resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, extra);
     	setResult(RESULT_OK, resultIntent);
 
