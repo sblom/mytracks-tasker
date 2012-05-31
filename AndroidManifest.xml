@@ -5,7 +5,7 @@
     android:versionName="1.0.1" >
 
     <uses-sdk
-        android:minSdkVersion="5"
+        android:minSdkVersion="7"
         android:targetSdkVersion="14"/>
     
     <!-- TODO: Do I really need READ_TRACK_DATA? It fixes a crash, but I wasn't expecting to need it. -->
