@@ -2,38 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="10px" >
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/textHelptext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/helptext" />
+        android:layout_centerVertical="true"
+        android:text="@string/help_text"
+        android:textSize="24dp"/>
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textHelptext"
-        android:onClick="save"
-        android:text="Start recording" />
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/startButton"
-        android:layout_alignTop="@id/startButton"
-        android:onClick="save"
-        android:text="Stop recording" />
+        <Button
+	        android:id="@+id/startButton"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_weight="1"
+	        android:onClick="save"
+	        android:text="@string/start_recording_label" />
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/stopButton"
-        android:layout_alignTop="@id/stopButton"
-        android:onClick="cancel"
-        android:text="Cancel" />
+	    <Button
+	        android:id="@+id/stopButton"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_weight="1"
+	        android:onClick="save"
+	        android:text="@string/stop_recording_label" />
+
+    </LinearLayout>
 
 </RelativeLayout>
