@@ -69,8 +69,14 @@ public class BroadcastExecutiveService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		tasks.add(intent);
-		return super.onStartCommand(intent, flags, startId);
+		if (intent != null) tasks.add(intent);
+		return START_STICKY;
+	}
+
+	// onStart is present for API versions prior to 2.0.
+	@Override
+	public void onStart(Intent intent, int startId) {
+		if (intent != null) tasks.add(intent);
 	}
 
 	@Override
