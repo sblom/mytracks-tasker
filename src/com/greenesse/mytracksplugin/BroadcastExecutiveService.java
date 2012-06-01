@@ -110,5 +110,6 @@ public class BroadcastExecutiveService extends Service {
     
     public void stop() throws RemoteException {
 		mytracksService.endCurrentTrack();
+		stopService(myTracksServiceIntent);
     }
 }
