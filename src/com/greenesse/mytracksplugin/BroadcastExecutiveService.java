@@ -24,8 +24,7 @@ public class BroadcastExecutiveService extends Service {
 	private ServiceConnection connection = new ServiceConnection() {		
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			Log.i("MyTracksPlugin", "Service disconnected, reconnecting.");
-			startAndBindMyTracksService();
+			Log.i("MyTracksPlugin", "Service disconnected.");
 		}
 		
 		@Override
@@ -41,11 +40,18 @@ public class BroadcastExecutiveService extends Service {
 		try {
 			intent = tasks.take();
 			while (intent != null) {
-				if ("start".equals(intent.getAction())) {
-					start();
+				try {
+					if ("start".equals(intent.getAction())) {
+						start();
+					}
+					else if ("stop".equals(intent.getAction())) {
+						stop();
+					}
 				}
-				else if ("stop".equals(intent.getAction())) {
-					stop();
+				catch (RemoteException e) {
+					tasks.add(intent);
+					startAndBindMyTracksService();
+					return;
 				}
 
 				intent = tasks.poll();
@@ -104,23 +110,11 @@ public class BroadcastExecutiveService extends Service {
 		super.onDestroy();
 	}
 	
-    public void start() {
-    	try {
-	    	if (!mytracksService.isRecording()) {
-	    		mytracksService.startNewTrack();
-	    	}
-    	} catch (RemoteException e) {
-    		Log.e("MyTracksPlugin", "RemoteException: " + e.getMessage());
-    	}
+    public void start() throws RemoteException {
+		mytracksService.startNewTrack();
     }
     
-    public void stop() {
-    	try {
-	    	if (mytracksService.isRecording()) {
-	    		mytracksService.endCurrentTrack();
-	    	}
-    	} catch (RemoteException e) {
-    		Log.e("MyTracksPlugin", "RemoteException: " + e.getMessage());
-    	}
+    public void stop() throws RemoteException {
+		mytracksService.endCurrentTrack();
     }
 }
