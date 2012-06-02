@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">MyTracks Tasker/Locale Plugin</string>
     <string name="setting_name">MyTracks Recording</string>
-    <string name="help_text">Choose whether you want the plugin to start or stop a MyTracks recording when it gets invoked by Tasker or Locale.</string>
+    <string name="help_text">Choose whether you want the plugin to start or stop a MyTracks recording when it gets invoked by Tasker or Locale.\n\nIMPORTANT: In order for this plugin to work, you must go to Menu-&gt;More-&gt;Settings-&gt;Sharing in My Tracks and choose to Allow access to other applications.</string>
     <string name="start_recording_label">Start recording</string>
     <string name="stop_recording_label">Stop recording</string>
     <string name="start_recording_blurb">Start recording</string>
