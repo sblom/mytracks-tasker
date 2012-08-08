@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="14"/>
+        android:targetSdkVersion="15"/>
     
     <!-- TODO: Do I really need READ_TRACK_DATA? It fixes a crash, but I wasn't expecting to need it. -->
     <uses-permission android:name="com.google.android.apps.mytracks.WRITE_TRACK_DATA" />
@@ -24,6 +24,7 @@
         <activity
             android:name=".EditActivity"
             android:label="@string/setting_name"
+            android:icon="@drawable/ic_launcher"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
