@@ -1,5 +1,6 @@
 package com.greenesse.mytracksplugin;
 
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -10,6 +11,10 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -18,6 +23,7 @@ import android.view.View;
 public class BroadcastExecutiveService extends Service {
 	private ITrackRecordingService mytracksService;
 	private Intent myTracksServiceIntent;
+	private int mytracksVersion;
 
 	private BlockingQueue<Intent> tasks = new ArrayBlockingQueue<Intent>(2);
 
@@ -96,6 +102,13 @@ public class BroadcastExecutiveService extends Service {
         if (!bindService(myTracksServiceIntent, connection, 0)) {
         	Log.e("MyTracksPlugin", "Couldn't bind to service.");
         }
+
+        try {
+			final PackageInfo mytracksInfo = getPackageManager().getPackageInfo("com.google.android.maps.mytracks", 0);
+			mytracksVersion = mytracksInfo.versionCode;
+        } catch (NameNotFoundException e) {
+			Log.e("Trace", "We appear to be missing My Tracks.");
+		}
 	}
 
 	@Override
@@ -105,11 +118,22 @@ public class BroadcastExecutiveService extends Service {
 	}
 	
     public void start() throws RemoteException {
-		mytracksService.startNewTrack();
-    }
+		if (mytracksVersion >= 70)
+			mytracksService.startNewTrack();
+		else
+			// HACKHACK: Versions of My Tracks prior to 2.0.5 had a different interface.
+			// Call the method that's known to have had the same AIDL descriptor before.
+			mytracksService.startGps();
+	}
     
     public void stop() throws RemoteException {
-		mytracksService.endCurrentTrack();
+		if (mytracksVersion >= 70)
+			mytracksService.endCurrentTrack();
+		else
+			// HACKHACK: Versions of My Tracks prior to 2.0.5 had a different interface.
+			// Call the method that's known to have had the same AIDL descriptor before.
+			mytracksService.stopGps();
+
 		stopService(myTracksServiceIntent);
     }
 }
