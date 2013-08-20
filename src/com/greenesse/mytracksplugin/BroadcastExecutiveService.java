@@ -132,7 +132,7 @@ public class BroadcastExecutiveService extends Service {
 		else
 			// HACKHACK: Versions of My Tracks prior to 2.0.5 had a different interface.
 			// Call the method that's known to have had the same AIDL descriptor before.
-			mytracksService.stopGps();
+			mytracksService.pauseCurrentTrack();
 
 		stopService(myTracksServiceIntent);
     }
